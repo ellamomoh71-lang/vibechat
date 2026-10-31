@@ -10,6 +10,20 @@ st.set_page_config(
 )
 
 st.title("💬 VibeChat")
+st.markdown("""
+<style>
+.stApp {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+.block-container {
+    padding-bottom: 100px;
+}
+footer {
+    visibility: hidden;
+}
+</style>
+""", unsafe_allow_html=True)
 st.caption("Connect. Chat. Share.")
 
 if "messages" not in st.session_state:
