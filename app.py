@@ -4,7 +4,10 @@ from datetime import datetime
 
 st.set_page_config(
     page_title="VibeChat",
-    page_icon="💬"
+    page_icon="💬",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 )
 
 st.title("💬 VibeChat")
