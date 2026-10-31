@@ -2,37 +2,51 @@ import streamlit as st
 
 st.set_page_config(
     page_title="VibeChat",
-    page_icon="💬",
-    layout="centered"
+    page_icon="💬"
 )
 
 st.title("💬 VibeChat")
-st.subheader("Connect. Chat. Share.")
+st.caption("Connect. Chat. Share.")
 
-st.write("Welcome to VibeChat!")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-st.divider()
+if "username" not in st.session_state:
+    st.session_state.username = ""
 
-st.header("Get Started")
+if not st.session_state.username:
+    st.subheader("Welcome to VibeChat!")
 
-option = st.radio(
-    "Choose an option:",
-    ["Create Account", "Login"]
-)
+    name = st.text_input("What should we call you?")
 
-if option == "Create Account":
-    st.subheader("Create your account")
-    username = st.text_input("Choose a username")
-    email = st.text_input("Enter your email")
-    password = st.text_input("Create password", type="password")
+    if st.button("Enter Chat"):
+        if name.strip():
+            st.session_state.username = name.strip()
+            st.rerun()
+        else:
+            st.warning("Please enter your name.")
 
-    if st.button("Sign Up"):
-        st.success("Welcome to VibeChat!")
+else:
+    st.sidebar.title("Your Profile")
+    st.sidebar.write(
+        "👤 " + st.session_state.username
+    )
 
-elif option == "Login":
-    st.subheader("Welcome back!")
-    email = st.text_input("Your email")
-    password = st.text_input("Your password", type="password")
+    if st.sidebar.button("Logout"):
+        st.session_state.username = ""
+        st.rerun()
 
-    if st.button("Login"):
-                st.success("Login button clicked")
+    st.subheader("💬 Your Chat Room")
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.write(message["content"])
+
+    new_message = st.chat_input("Type a message...")
+
+    if new_message:
+        st.session_state.messages.append({
+            "role": "user",
+            "content": new_message
+        })
+        st.rerun
